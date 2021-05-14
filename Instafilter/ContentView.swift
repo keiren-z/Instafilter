@@ -96,27 +96,13 @@ struct ContentView: View {
                         filters.map { name in
                             .default(Text(name)) {
                                 filterButtonText = name
-                                if name == "Crystallize" {
-                                    self.setFiler(CIFilter.crystallize())
-                                }
-                                if name == "Edges" {
-                                    self.setFiler(CIFilter.edges())
-                                }
-                                if name == "Gaussian Blur" {
-                                    self.setFiler(CIFilter.gaussianBlur())
-                                }
-                                if name == "Pixellate" {
-                                    self.setFiler(CIFilter.pixellate())
-                                }
-                                if name == "Sepia Tone" {
-                                    self.setFiler(CIFilter.sepiaTone())
-                                }
-                                if name == "Unsharp Mask" {
-                                    self.setFiler(CIFilter.unsharpMask())
-                                }
-                                if name == "Vignette" {
-                                    self.setFiler(CIFilter.vignette())
-                                }
+                                if name == "Crystallize" { self.setFiler(CIFilter.crystallize()) }
+                                if name == "Edges" { self.setFiler(CIFilter.edges()) }
+                                if name == "Gaussian Blur" { self.setFiler(CIFilter.gaussianBlur()) }
+                                if name == "Pixellate" { self.setFiler(CIFilter.pixellate()) }
+                                if name == "Sepia Tone" { self.setFiler(CIFilter.sepiaTone()) }
+                                if name == "Unsharp Mask" { self.setFiler(CIFilter.unsharpMask()) }
+                                if name == "Vignette" { self.setFiler(CIFilter.vignette()) }
                             }
                         } + [Alert.Button.cancel()]
                     )
