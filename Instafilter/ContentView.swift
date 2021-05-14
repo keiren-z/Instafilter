@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var currentFilter: CIFilter = CIFilter.sepiaTone()
     @State private var showingFilterSheet = false
     @State private var proccesedImage: UIImage?
+    @State private var showingError = false
     
     let context = CIContext()
     
@@ -64,7 +65,11 @@ struct ContentView: View {
                     Spacer()
                     
                     Button("Save") {
-                        guard let proccesedImage = self.proccesedImage else { return }
+                        guard let proccesedImage = self.proccesedImage else {
+                            showingError = true
+                            
+                            return
+                        }
                         
                         let imageSaver = ImageSaver()
                         
@@ -95,6 +100,9 @@ struct ContentView: View {
                         .default(Text("Unsharp Mask")) { self.setFiler(CIFilter.unsharpMask()) },
                         .default(Text("Vignette")) { self.setFiler(CIFilter.vignette()) },
                     ])
+                }
+                .alert(isPresented: $showingError) {
+                        Alert(title: Text("Error‼️"), message: Text("You must select an image"), dismissButton: .default(Text("OK")))
                 }
             }
         }
