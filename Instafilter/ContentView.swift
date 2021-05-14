@@ -18,8 +18,10 @@ struct ContentView: View {
     @State private var showingFilterSheet = false
     @State private var proccesedImage: UIImage?
     @State private var showingError = false
+    @State private var filterButtonText = "Change Filter"
     
     let context = CIContext()
+    let filters = ["Crystallize","Edges","Gaussian Blur","Pixellate","Sepia Tone","Unsharp Mask","Vignette"]
     
     var body: some View {
         let intensity = Binding<Double> (
@@ -58,7 +60,7 @@ struct ContentView: View {
                 }.padding(.vertical)
                 
                 HStack {
-                    Button("Chanage Filter") {
+                    Button(filterButtonText) {
                         self.showingFilterSheet = true
                     }
                     
@@ -90,19 +92,37 @@ struct ContentView: View {
                     ImagePicker(image: self.$inputImage)
                 }
                 .actionSheet(isPresented: $showingFilterSheet) {
-                    // various Core Image filters
-                    ActionSheet(title: Text("Select a filter"), buttons: [
-                        .default(Text("Crystallize")) { self.setFiler(CIFilter.crystallize()) },
-                        .default(Text("Edges")) { self.setFiler(CIFilter.edges()) },
-                        .default(Text("Gaussian Blur")) { self.setFiler(CIFilter.gaussianBlur()) },
-                        .default(Text("Pixellate")) { self.setFiler(CIFilter.pixellate()) },
-                        .default(Text("Sepia Tone")) { self.setFiler(CIFilter.sepiaTone()) },
-                        .default(Text("Unsharp Mask")) { self.setFiler(CIFilter.unsharpMask()) },
-                        .default(Text("Vignette")) { self.setFiler(CIFilter.vignette()) },
-                    ])
+                    ActionSheet(title: Text("Select a filter"), buttons:
+                        filters.map { name in
+                            .default(Text(name)) {
+                                filterButtonText = name
+                                if name == "Crystallize" {
+                                    self.setFiler(CIFilter.crystallize())
+                                }
+                                if name == "Edges" {
+                                    self.setFiler(CIFilter.edges())
+                                }
+                                if name == "Gaussian Blur" {
+                                    self.setFiler(CIFilter.gaussianBlur())
+                                }
+                                if name == "Pixellate" {
+                                    self.setFiler(CIFilter.pixellate())
+                                }
+                                if name == "Sepia Tone" {
+                                    self.setFiler(CIFilter.sepiaTone())
+                                }
+                                if name == "Unsharp Mask" {
+                                    self.setFiler(CIFilter.unsharpMask())
+                                }
+                                if name == "Vignette" {
+                                    self.setFiler(CIFilter.vignette())
+                                }
+                            }
+                        } + [Alert.Button.cancel()]
+                    )
                 }
                 .alert(isPresented: $showingError) {
-                        Alert(title: Text("Error‼️"), message: Text("You must select an image"), dismissButton: .default(Text("OK")))
+                    Alert(title: Text("Error‼️"), message: Text("You must select an image"), dismissButton: .default(Text("OK")))
                 }
             }
         }
